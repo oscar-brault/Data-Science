@@ -13,7 +13,9 @@ Professeur référent : Machrafi Aboubakr
 
 
 ============================================================
-DESCRIPTION DU PROJET
+
+                  DESCRIPTION DU PROJET
+
 ============================================================
 
 Ce projet de Data Science vise à analyser des données de
@@ -33,7 +35,9 @@ jusqu'à la génération de profils synthétiques.
 
 
 ============================================================
-OBJECTIFS DU PROJET
+
+                  OBJECTIFS DU PROJET
+
 ============================================================
 
 - Dashboard interactif pour explorer les données et tester les modèles
@@ -45,7 +49,9 @@ OBJECTIFS DU PROJET
 
 
 ============================================================
-FONCTIONNALITÉS ET MÉTHODOLOGIE
+
+            FONCTIONNALITÉS ET MÉTHODOLOGIE
+
 ============================================================
 
 Le projet est organisé autour de quatre axes principaux :
