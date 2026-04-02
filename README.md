@@ -142,21 +142,13 @@ STRUCTURE DU PROJET
 
 ============================================================
 
-app.py
-    
- Script principal Streamlit (navigation, clustering, prévision)
+app.py : Script principal Streamlit (navigation, clustering, prévision)
 
-generation_page.py
+generation_page.py : Interface utilisateur pour la génération
 
-  Interface utilisateur pour la génération
+generation_module.py : Logique CVAE (PyTorch, pertes, reconstruction, métriques)
 
-generation_module.py
-
-  Logique CVAE (PyTorch, pertes, reconstruction, métriques)
-
-features_pour_classification.csv
-
-  Données de features pour les modèles
+features_pour_classification.csv : Données de features pour les modèles
 
 
 ============================================================
@@ -191,6 +183,9 @@ Prérequis :
     pip install streamlit pandas numpy matplotlib seaborn \
                 scikit-learn torch scipy
 
+Note technique : La version de Pandas doit imperativement etre inférieur à 2.1.0 pour garantir le bon affichage des tableaux de bord
+(utilisation de la methode DataFrame.map).
+
 
 ============================================================
 
@@ -203,6 +198,7 @@ Pour éxécuter le code :
 Commande :  python -m streamlit run app.py
 
 Si le dataset utilisé est supérieur à 200Mo
+
 Commande :
     python -m streamlit run app.py --server.maxUploadSize 1000
 
