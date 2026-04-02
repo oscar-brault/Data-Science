@@ -143,16 +143,20 @@ STRUCTURE DU PROJET
 ============================================================
 
 app.py
-    Script principal Streamlit (navigation, clustering, prévision)
+    
+ Script principal Streamlit (navigation, clustering, prévision)
 
 generation_page.py
-    Interface utilisateur pour la génération
+
+  Interface utilisateur pour la génération
 
 generation_module.py
-    Logique CVAE (PyTorch, pertes, reconstruction, métriques)
+
+  Logique CVAE (PyTorch, pertes, reconstruction, métriques)
 
 features_pour_classification.csv
-    Données de features pour les modèles
+
+  Données de features pour les modèles
 
 
 ============================================================
@@ -162,22 +166,28 @@ INSTALLATION
 ============================================================
 
 Prérequis :
-    Python 3.8 ou supérieur
+
+  Python 3.8 ou supérieur
 
 1) Cloner le dépôt
+   
     git clone <URL_DU_DEPOT>
     cd <NOM_DU_DOSSIER>
 
 2) Créer un environnement virtuel
+   
     python -m venv env
 
    Activation Windows :
+   
     env\Scripts\activate
 
    Activation macOS / Linux :
+   
     source env/bin/activate
 
 3) Installer les dépendances
+   
     pip install streamlit pandas numpy matplotlib seaborn \
                 scikit-learn torch scipy
 
@@ -189,6 +199,7 @@ EXÉCUTION
 ============================================================
 
 Pour éxécuter le code : 
+
 Commande :  python -m streamlit run app.py
 
 Si le dataset utilisé est supérieur à 200Mo
