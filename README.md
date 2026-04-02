@@ -184,8 +184,10 @@ EXÉCUTION
 
 ============================================================
 
-Si le dataset utilisé est supérieur à 200Mo
+Pour éxécuter le code : 
+Commande :  python -m streamlit run app.py
 
+Si le dataset utilisé est supérieur à 200Mo
 Commande :
     python -m streamlit run app.py --server.maxUploadSize 1000
 
