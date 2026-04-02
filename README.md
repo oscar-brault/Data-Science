@@ -180,11 +180,10 @@ Prérequis :
 
 3) Installer les dépendances
    
-    pip install streamlit pandas numpy matplotlib seaborn \
-                scikit-learn torch scipy
+pip install streamlit "pandas==2.3.3" numpy matplotlib seaborn scikit-learn torch scipy
 
-Note technique : La version de Pandas doit imperativement etre inférieur à 2.1.0 pour garantir le bon affichage des tableaux de bord
-(utilisation de la methode DataFrame.map).
+Note technique : La version de Pandas doit imperativement etre inférieur aux plus récente (dans notre cas 2.3.3) pour garantir le bon affichage des tableaux de bord
+(utilisation de la methode DataFrame.applymap).
 
 
 ============================================================
