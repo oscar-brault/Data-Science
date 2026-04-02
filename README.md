@@ -6,9 +6,13 @@ PROJET : ANALYSE ET DÉTECTION DES PROFILS DE CONSOMMATION ÉLECTRIQUE (ENEDIS)
 ============================================================
 
 Établissement       : ESIEE Paris
+
 Formation           : Data Science
+
 Année universitaire : 2025/2026
+
 Équipe projet       : Timéo AMBIBARD, Oscar BRAULT, Victor CHEN
+
 Professeur référent : Machrafi Aboubakr
 
 
