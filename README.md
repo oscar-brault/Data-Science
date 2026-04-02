@@ -14,7 +14,7 @@ Professeur référent : Machrafi Aboubakr
 
 ============================================================
 
-                  DESCRIPTION DU PROJET
+DESCRIPTION DU PROJET
 
 ============================================================
 
@@ -36,7 +36,7 @@ jusqu'à la génération de profils synthétiques.
 
 ============================================================
 
-                  OBJECTIFS DU PROJET
+  OBJECTIFS DU PROJET
 
 ============================================================
 
@@ -50,7 +50,7 @@ jusqu'à la génération de profils synthétiques.
 
 ============================================================
 
-            FONCTIONNALITÉS ET MÉTHODOLOGIE
+FONCTIONNALITÉS ET MÉTHODOLOGIE
 
 ============================================================
 
@@ -91,7 +91,9 @@ Le projet est organisé autour de quatre axes principaux :
 
 
 ============================================================
+
 FONCTIONNALITÉS DU DASHBOARD
+
 ============================================================
 
 - Exploration des données et des clusters
@@ -106,7 +108,9 @@ FONCTIONNALITÉS DU DASHBOARD
 
 
 ============================================================
+
 TECHNOLOGIES UTILISÉES
+
 ============================================================
 
 Langage :
@@ -129,7 +133,9 @@ Interface :
 
 
 ============================================================
+
 STRUCTURE DU PROJET
+
 ============================================================
 
 app.py
@@ -146,7 +152,9 @@ features_pour_classification.csv
 
 
 ============================================================
+
 INSTALLATION
+
 ============================================================
 
 Prérequis :
@@ -171,7 +179,9 @@ Prérequis :
 
 
 ============================================================
+
 EXÉCUTION
+
 ============================================================
 
 Si le dataset utilisé est supérieur à 200Mo
