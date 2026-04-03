@@ -344,22 +344,59 @@ def compute_occupancy_score(features_orig: np.ndarray) -> pd.DataFrame:
     Un score faible → logement souvent vide (RS ou logement vacant).
 
     Indicateurs utilisés :
-      • prop_conso_nulle : proportion de relevés nuls (absence directe)
-      • conso_std / conso_moyenne : coefficient de variation (variabilité journalière)
-      • ratio_we_semaine : si ratio >> 1 → présence surtout le weekend (RS)
+      • prop_conso_nulle  : proportion de relevés nuls — normalisée relativement
+                            au max du dataset (pas en valeur absolue, car même les
+                            RS n'ont que ~10-40% de relevés nuls sur l'année entière)
+      • conso_std / conso_moyenne : coefficient de variation — irrégularité de conso
+      • ratio_we_semaine  : si ratio >> 1 → présence surtout le weekend (RS typique)
+      • ratio_hiver_ete   : fort ratio = chauffage actif en hiver = RP avec chauffage élec
+
+    Note sur la normalisation relative :
+        Les features sont des agrégats annuels. Une RS absente 2 mois/an = seulement
+        ~17% de relevés nuls. Avec une normalisation absolue (÷1), tout le monde
+        serait proche de 1. On normalise donc par le max du groupe pour étaler
+        la distribution et rendre les seuils 0.4 / 0.7 effectivement atteints.
     """
     df = pd.DataFrame(features_orig, columns=FEATURE_NAMES)
 
-    # Normalisation entre 0 et 1 de chaque indicateur et 1 = occupé
-    absence_score  = 1.0 - df["prop_conso_nulle"].clip(0, 1)
+    # ── Indicateur 1 : absences (normalisé par le max du dataset) ──────────
+    # Sans cette normalisation relative, prop_conso_nulle max ≈ 0.39
+    # → absence_score minimum = 1 - 0.39 = 0.61 → seuil 0.4 jamais atteint
+    max_nulle = df["prop_conso_nulle"].max()
+    if max_nulle > 0:
+        absence_norm = df["prop_conso_nulle"] / max_nulle          # 0 = jamais absent, 1 = le plus absent du dataset
+    else:
+        absence_norm = df["prop_conso_nulle"]
+    absence_score = 1.0 - absence_norm                             # 1 = toujours occupé, 0 = très souvent absent
 
-    cv = (df["conso_std"] / (df["conso_moyenne"] + 1e-9)).clip(0, 5) / 5
-    stability_score = 1.0 - cv  # faible CV = consommation régulière = occupé
+    # ── Indicateur 2 : régularité de la consommation ────────────────────────
+    # Coefficient de variation : CV élevé = consommation très variable = présence irrégulière
+    cv = (df["conso_std"] / (df["conso_moyenne"] + 1e-9))
+    cv_norm = (cv - cv.min()) / (cv.max() - cv.min() + 1e-9)       # Normalisation min-max
+    stability_score = 1.0 - cv_norm                                # 1 = très régulier = occupé en permanence
 
-    # ratio_we proche de 1 donc régulier toute la semaine donc RP
-    we_score = 1.0 - (df["ratio_we_semaine"] - 1.0).abs().clip(0, 2) / 2
+    # ── Indicateur 3 : équilibre semaine / weekend ──────────────────────────
+    # ratio_we ≈ 1 → présence uniforme → RP
+    # ratio_we >> 1 → surtout le weekend → RS (résidence de vacances)
+    we_deviation = (df["ratio_we_semaine"] - 1.0).abs()
+    we_dev_norm  = (we_deviation / (we_deviation.max() + 1e-9))
+    we_score     = 1.0 - we_dev_norm                               # 1 = présence uniforme
 
-    occupancy = (0.5 * absence_score + 0.3 * stability_score + 0.2 * we_score).clip(0, 1)
+    # ── Indicateur 4 : ratio hiver/été (spécifique RES2 — chauffage élec) ──
+    # Un fort ratio hiver/été sur RES2 = chauffage électrique actif en hiver
+    # = logement habité en hiver = plutôt RP
+    # Un ratio ≈ 1 ou faible = pas de chauffage hiver = logement peu utilisé en hiver = RS
+    hiver_norm   = (df["ratio_hiver_ete"] - df["ratio_hiver_ete"].min()) / \
+                   (df["ratio_hiver_ete"].max() - df["ratio_hiver_ete"].min() + 1e-9)
+    hiver_score  = hiver_norm.clip(0, 1)                           # 1 = fort usage hiver = RP
+
+    # ── Score final (somme pondérée) ────────────────────────────────────────
+    occupancy = (
+        0.40 * absence_score     # Absences directes : indicateur le plus fort
+      + 0.25 * stability_score   # Régularité de la conso
+      + 0.20 * we_score          # Équilibre semaine/weekend
+      + 0.15 * hiver_score       # Usage hivernal (spécifique RES2)
+    ).clip(0, 1)
 
     df["score_occupation"] = occupancy.round(3)
     df["statut_occupation"] = occupancy.apply(
